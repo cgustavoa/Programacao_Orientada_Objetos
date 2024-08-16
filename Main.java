@@ -1,6 +1,6 @@
 package br.com.gustavo.main;
 
-import br.com.gustavo.veiculo.Veiculo;
+import br.com.gustavo.animal.Animal;
 
 public class Main {
 
@@ -8,21 +8,16 @@ public class Main {
 		
 		// Tirando o carro da forma (instanciar)
 		
-		Veiculo objVeiculo1 = new Veiculo("Fiat", "Uno", 1997);
-		objVeiculo1.acelerar();
-		objVeiculo1.exibirInformacao();
+		Animal objAnimal1 = new Animal("Cachorro", "vira-lata", "caramelo", 10);
+		objAnimal1.latir();
+		objAnimal1.exibirDados();
 		
-		Veiculo objVeiculo2 = new Veiculo("Chevrolet", "Opala", 1968);
-		objVeiculo2.acelerar();
-		objVeiculo2.exibirInformacao();
+		System.out.println("=====================================");
 		
-		Veiculo objVeiculo3 = new Veiculo("Fiat", "Uno", 1997);
-		objVeiculo3.freiar();
-		objVeiculo3.exibirInformacao();
+		Animal objAnimal2 = new Animal("Gato", "Siamês", "Branco", 5);
+		objAnimal2.miar();
+		objAnimal2.exibirDados();
 		
-		Veiculo objVeiculo4 = new Veiculo("Chevrolet", "Opala", 1968);
-		objVeiculo4.freiar();
-		objVeiculo4.exibirInformacao();
 		
 	
 	}
