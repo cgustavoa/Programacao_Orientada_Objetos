@@ -1,0 +1,27 @@
+package br.com.honda.veiculo;
+
+public class Veiculo {
+	
+	//ATRIBUTOS DA CLASSE
+	private String marca;
+	private String modelo;
+	private String cor;
+	
+	//CONSTRUTOR DA CLASSE: INICIALIZA OS ATRIBUTOS
+	public Veiculo(String marca, String modelo, String cor) {
+		super();
+		this.marca = marca;
+		this.modelo = modelo;
+		this.cor = cor;
+		
+	}
+
+	//METODOS DA CLASSE
+	public void acelerar() {
+		System.out.println(modelo +" Acelerando");
+	}
+	
+	public void freiar() {
+		System.out.println(modelo + " Freiando");
+	}
+}
