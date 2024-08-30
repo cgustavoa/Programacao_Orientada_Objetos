@@ -1,0 +1,19 @@
+package br.com.honda.veiculo;
+
+public class Moto extends Veiculo{
+	
+	private String peDeDescanso;
+	private String modeloGuidao;
+	
+	
+	public Moto(String marca, String modelo, String cor, String peDeDescanso, String modeloGuidao) {
+		super(marca, modelo, cor);
+		this.peDeDescanso = peDeDescanso;
+		this.modeloGuidao = modeloGuidao;
+	}
+
+
+	public void cair() {
+		System.out.println(" Caindo");
+	}
+}
