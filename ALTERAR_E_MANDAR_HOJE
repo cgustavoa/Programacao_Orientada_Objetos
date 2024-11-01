@@ -1,0 +1,70 @@
+# DESAFIO INTERFACE
+// Interface AreaCalculavel
+interface AreaCalculavel {
+    double calcularArea();
+}
+
+// Classe Retangulo que implementa AreaCalculavel
+class Retangulo implements AreaCalculavel {
+    private double largura;
+    private double altura;
+
+    public Retangulo(double largura, double altura) {
+        this.largura = largura;
+        this.altura = altura;
+    }
+
+    @Override
+    public double calcularArea() {
+        return largura * altura;
+    }
+}
+
+// Classe Circulo que implementa AreaCalculavel
+class Circulo implements AreaCalculavel {
+    private double raio;
+
+    public Circulo(double raio) {
+        this.raio = raio;
+    }
+
+    @Override
+    public double calcularArea() {
+        return Math.PI * raio * raio;
+    }
+}
+
+// Classe Triangulo que implementa AreaCalculavel
+class Triangulo implements AreaCalculavel {
+    private double base;
+    private double altura;
+
+    public Triangulo(double base, double altura) {
+        this.base = base;
+        this.altura = altura;
+    }
+
+    @Override
+    public double calcularArea() {
+        return (base * altura) / 2;
+    }
+}
+
+// Classe principal para teste
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        // Criando uma lista de objetos AreaCalculavel
+        List<AreaCalculavel> formas = new ArrayList<>();
+        formas.add(new Retangulo(5, 10));
+        formas.add(new Circulo(7));
+        formas.add(new Triangulo(6, 8));
+
+        // Calculando e exibindo a área de cada forma
+        for (AreaCalculavel forma : formas) {
+            System.out.printf("A área é: %.2f%n", forma.calcularArea());
+        }
+    }
+}
