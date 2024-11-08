@@ -1,0 +1,256 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Classe base Pessoa, que será herdada pelas classes Aluno e Professor.
+abstract class Pessoa {
+    private String nome;
+    private int idade;
+    private String endereco;
+
+    // Construtor
+    public Pessoa(String nome, int idade, String endereco) {
+        this.nome = nome;
+        this.idade = idade;
+        this.endereco = endereco;
+    }
+
+    // Métodos getters e setters para os atributos privados
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+}
+
+// Classe Aluno, que herda de Pessoa.
+class Aluno extends Pessoa {
+    private String cursoInscrito;
+
+    public Aluno(String nome, int idade, String endereco) {
+        super(nome, idade, endereco);  // Chama o construtor da classe base
+        this.cursoInscrito = null;
+    }
+
+    // Inscreve o aluno em um curso
+    public void inscreverCurso(String curso) {
+        this.cursoInscrito = curso;
+        System.out.println(getNome() + " se inscreveu no curso de " + curso);
+    }
+
+    // Cancela a inscrição do aluno no curso
+    public void cancelarInscricao() {
+        this.cursoInscrito = null;
+        System.out.println(getNome() + " cancelou a inscrição no curso.");
+    }
+
+    // Método para exibir o curso inscrito
+    public String getCursoInscrito() {
+        return cursoInscrito;
+    }
+}
+
+// Classe Professor, que herda de Pessoa e implementa a interface Agendavel.
+class Professor extends Pessoa implements Agendavel {
+    private String disciplina;
+
+    public Professor(String nome, int idade, String endereco, String disciplina) {
+        super(nome, idade, endereco);  // Chama o construtor da classe base
+        this.disciplina = disciplina;
+    }
+
+    // Implementação do método agendarAula da interface Agendavel
+    public void agendarAula(String horario) {
+        System.out.println(getNome() + " agendou uma aula de " + disciplina + " para " + horario);
+    }
+
+    // Implementação do método cancelarAula da interface Agendavel
+    public void cancelarAula(String horario) {
+        System.out.println(getNome() + " cancelou a aula de " + disciplina + " para " + horario);
+    }
+
+    // Getter para a disciplina
+    public String getDisciplina() {
+        return disciplina;
+    }
+}
+
+// Interface Agendavel (Contrato)
+interface Agendavel {
+    void agendarAula(String horario);
+    void cancelarAula(String horario);
+}
+
+// Fábrica para criar diferentes tipos de cursos.
+class CursoFactory {
+    // Método para criar o curso baseado no tipo
+    public static Curso criarCurso(String tipoCurso) {
+        if (tipoCurso.equalsIgnoreCase("piano")) {
+            return new CursoDePiano();
+        } else if (tipoCurso.equalsIgnoreCase("violao")) {
+            return new CursoDeViolao();
+        } else if (tipoCurso.equalsIgnoreCase("canto")) {
+            return new CursoDeCanto();
+        } else {
+            throw new IllegalArgumentException("Curso não reconhecido");
+        }
+    }
+}
+
+// Interface para representar um Curso
+interface Curso {
+    void iniciarCurso();
+}
+
+// Implementação do Curso de Piano
+class CursoDePiano implements Curso {
+    public void iniciarCurso() {
+        System.out.println("Iniciando o curso de Piano.");
+    }
+}
+
+// Implementação do Curso de Violão
+class CursoDeViolao implements Curso {
+    public void iniciarCurso() {
+        System.out.println("Iniciando o curso de Violão.");
+    }
+}
+
+// Implementação do Curso de Canto
+class CursoDeCanto implements Curso {
+    public void iniciarCurso() {
+        System.out.println("Iniciando o curso de Canto.");
+    }
+}
+
+// Singleton para gerenciar os agendamentos de aulas.
+class GerenciadorDeAulas {
+    private static GerenciadorDeAulas instanciaUnica;
+
+    private GerenciadorDeAulas() {
+        // Construtor privado para garantir que só uma instância seja criada
+    }
+
+    // Método para obter a instância única
+    public static GerenciadorDeAulas getInstancia() {
+        if (instanciaUnica == null) {
+            instanciaUnica = new GerenciadorDeAulas();
+        }
+        return instanciaUnica;
+    }
+
+    // Método para agendar uma aula
+    public void agendarAula(String professor, String aluno, String horario) {
+        System.out.println("Aula agendada com " + professor + " para o aluno " + aluno + " no horário " + horario);
+    }
+}
+
+// Classe Observada
+class Aulas {
+    private List<Observer> observadores = new ArrayList<>();
+    private String horario;
+
+    // Método para registrar observadores
+    public void adicionarObserver(Observer observer) {
+        observadores.add(observer);
+    }
+
+    // Método para remover observadores
+    public void removerObserver(Observer observer) {
+        observadores.remove(observer);
+    }
+
+    // Método para notificar todos os observadores sobre alteração de horário
+    public void notificarObservers() {
+        for (Observer observer : observadores) {
+            observer.atualizar(horario);
+        }
+    }
+
+    // Alterar o horário da aula e notificar os observadores
+    public void setHorario(String horario) {
+        this.horario = horario;
+        notificarObservers();
+    }
+}
+
+// Interface Observer (contrato)
+interface Observer {
+    void atualizar(String horario);
+}
+
+// Classe Aluno implementando Observer
+class AlunoObserver implements Observer {
+    private String nome;
+
+    public AlunoObserver(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public void atualizar(String horario) {
+        System.out.println("Aluno " + nome + " foi notificado sobre a alteração do horário: " + horario);
+    }
+}
+
+// Classe Professor implementando Observer
+class ProfessorObserver implements Observer {
+    private String nome;
+
+    public ProfessorObserver(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public void atualizar(String horario) {
+        System.out.println("Professor " + nome + " foi notificado sobre a alteração do horário: " + horario);
+    }
+}
+
+// Classe Principal (Main)
+public class Main {
+    public static void main(String[] args) {
+        // Criando professores e alunos
+        Aluno aluno = new Aluno("João", 20, "Rua A");
+        Professor professor = new Professor("Maria", 40, "Rua B", "Piano");
+
+        // Criando um curso de Piano usando o Factory
+        Curso curso = CursoFactory.criarCurso("piano");
+        curso.iniciarCurso();
+
+        // Aluno se inscreve no curso
+        aluno.inscreverCurso("Piano");
+
+        // Gerenciando aula com o Singleton
+        GerenciadorDeAulas gerenciador = GerenciadorDeAulas.getInstancia();
+        gerenciador.agendarAula(professor.getNome(), aluno.getNome(), "14:00");
+
+        // Criando sistema de notificação de alterações de aula
+        Aulas aula = new Aulas();
+        Observer alunoObserver = new AlunoObserver(aluno.getNome());
+        Observer professorObserver = new ProfessorObserver(professor.getNome());
+
+        aula.adicionarObserver(alunoObserver);
+        aula.adicionarObserver(professorObserver);
+
+        // Alterando horário da aula e notificando os observadores
+        aula.setHorario("16:00");
+    }
+}
